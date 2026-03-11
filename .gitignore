@@ -1,0 +1,19 @@
+# virtual environment
+venv/
+
+# дані — файли можуть бути великими
+data/raw/
+data/bronze/
+data/silver/
+data/gold/
+
+# логи
+logs/
+
+# паролі — НІКОЛИ не пушимо
+.env
+
+# системні файли
+__pycache__/
+*.pyc
+.DS_Store

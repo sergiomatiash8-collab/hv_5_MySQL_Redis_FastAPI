@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: adtech_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: adtech_root
+      MYSQL_DATABASE: adtech_gold
+      MYSQL_USER: adtech_user
+      MYSQL_PASSWORD: adtech_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: >
+      --innodb-buffer-pool-size=4G
+      --innodb-log-file-size=256M
+      --innodb-flush-log-at-trx-commit=2
+      --innodb-flush-method=O_DIRECT
+      --max-allowed-packet=256M
+      --bulk-insert-buffer-size=256M
+
+volumes:
+  mysql_data:
