@@ -22,5 +22,12 @@ services:
       --max-allowed-packet=256M
       --bulk-insert-buffer-size=256M
 
+  redis:
+    image: redis:7.2
+    container_name: adtech_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
 volumes:
   mysql_data:
