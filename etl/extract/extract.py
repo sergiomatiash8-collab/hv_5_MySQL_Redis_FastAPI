@@ -11,7 +11,7 @@ FILES = {
 }
 
 def extract() -> dict:
-    logger.info("=== RAW шар: читаємо файли як є ===")
+    logger.info("RAW ")
     
     dataframes = {}
     

@@ -28,7 +28,7 @@ def gold_advertisers(campaigns: pd.DataFrame) -> pd.DataFrame:
 
 
 def _parse_targeting(criteria: str):
-    """Розбиває 'Age 24-42, Gaming, India' на окремі поля"""
+    """ 'Age 24-42, Gaming, India' """
     if pd.isna(criteria):
         return None, None, None, None
     age_match = re.search(r'Age (\d+)-(\d+)', str(criteria))
@@ -44,12 +44,12 @@ def gold_campaigns(campaigns: pd.DataFrame, advertisers: pd.DataFrame) -> pd.Dat
     logger.info("=== GOLD: campaigns (3NF) ===")
     df = campaigns.copy()
 
-    # замінюємо AdvertiserName на advertiser_id
+    
     name_to_id = advertisers.set_index("advertiser_name")["advertiser_id"].to_dict()
     df["advertiser_id"] = df["AdvertiserName"].map(name_to_id)
     df = df.drop(columns=["AdvertiserName"])
 
-    # розбиваємо targeting_criteria на окремі колонки (3NF)
+    
     parsed = df["TargetingCriteria"].apply(
         lambda x: pd.Series(
             _parse_targeting(x),
@@ -60,7 +60,7 @@ def gold_campaigns(campaigns: pd.DataFrame, advertisers: pd.DataFrame) -> pd.Dat
     df = pd.concat([df, parsed], axis=1)
     df = df.drop(columns=["TargetingCriteria"])
 
-    # перейменовуємо колонки
+    
     df.rename(columns={
         "CampaignID":        "campaign_id",
         "CampaignName":      "campaign_name",
@@ -70,7 +70,7 @@ def gold_campaigns(campaigns: pd.DataFrame, advertisers: pd.DataFrame) -> pd.Dat
         "Budget":            "budget",
     }, inplace=True)
 
-    # впорядковуємо колонки
+    
     df = df[[
         "campaign_id", "advertiser_id", "campaign_name",
         "start_date", "end_date",
@@ -110,12 +110,12 @@ def gold_events(events: pd.DataFrame, campaigns: pd.DataFrame) -> pd.DataFrame:
     logger.info("=== GOLD: events (3NF) ===")
     df = events.copy()
 
-    # замінюємо CampaignName на campaign_id
+    
     name_to_id = campaigns.set_index("campaign_name")["campaign_id"].to_dict()
     df["campaign_id"] = df["CampaignName"].map(name_to_id)
     df = df.drop(columns=["CampaignName"])
 
-    # перейменовуємо колонки
+    
     df.rename(columns={
         "EventID":        "event_id",
         "UserID":         "user_id",
@@ -128,7 +128,7 @@ def gold_events(events: pd.DataFrame, campaigns: pd.DataFrame) -> pd.DataFrame:
         "ClickTimestamp": "click_timestamp",
     }, inplace=True)
 
-    # впорядковуємо колонки
+    
     df = df[[
         "event_id", "campaign_id", "user_id", "device", "location",
         "event_timestamp", "bid_amount", "ad_cost", "ad_revenue", "click_timestamp"

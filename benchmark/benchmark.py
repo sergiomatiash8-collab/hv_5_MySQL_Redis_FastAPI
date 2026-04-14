@@ -31,11 +31,11 @@ def run_benchmark():
         endpoint = url.replace(BASE_URL, "")
         print(f"\nEndpoint: {endpoint}")
 
-        # перший запит — завжди іде в MySQL (cold start)
+        # 1 request MySQL (cold start)
         cold = measure(url, 1)
         print(f"  Cold start (MySQL):  {cold[0]} ms")
 
-        # наступні запити — з кешу Redis
+        # 2 request Redis
         cached = measure(url, RUNS)
         avg_cached = round(sum(cached) / len(cached), 2)
         print(f"  Cached (Redis) x{RUNS}: {cached}")

@@ -12,10 +12,8 @@ app = FastAPI(title="AdTech Analytics API")
 @app.get("/campaign/{campaign_id}/performance")
 def campaign_performance(campaign_id: int):
     """
-    Повертає CTR, clicks, impressions і ad_spend для кампанії.
-    Спочатку перевіряємо Redis — якщо є, повертаємо одразу.
-    Якщо немає — йдемо в MySQL, зберігаємо в Redis і повертаємо.
-    TTL: 30 секунд.
+    Return CTR, clicks, impressions і ad_spend 
+    
     """
     key = f"campaign:{campaign_id}:performance"
 
@@ -34,8 +32,8 @@ def campaign_performance(campaign_id: int):
 @app.get("/advertiser/{advertiser_id}/spending")
 def advertiser_spending(advertiser_id: int):
     """
-    Повертає загальні витрати рекламодавця.
-    TTL: 5 хвилин.
+    Over exp adv
+    TTL: 5m
     """
     key = f"advertiser:{advertiser_id}:spending"
 
@@ -54,8 +52,8 @@ def advertiser_spending(advertiser_id: int):
 @app.get("/user/{user_id}/engagements")
 def user_engagements(user_id: int):
     """
-    Повертає останні 20 рекламних подій для юзера.
-    TTL: 1 хвилина.
+    20 adv ev for user
+    TTL: 1m
     """
     key = f"user:{user_id}:engagements"
 

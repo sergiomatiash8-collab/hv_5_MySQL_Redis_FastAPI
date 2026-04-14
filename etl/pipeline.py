@@ -14,7 +14,7 @@ from etl.load.load        import load_all
 
 
 def run():
-    logger.info("========== PIPELINE СТАРТ ==========")
+    logger.info("========== PIPELINE Start ==========")
 
     
     logger.info("--- КРОК 1: EXTRACT (RAW) ---")
@@ -43,7 +43,7 @@ def run():
     logger.info("--- КРОК 5: LOAD → MySQL ---")
     load_all(g_advertisers, g_campaigns, g_users, g_events)
 
-    logger.info("========== PIPELINE ЗАВЕРШЕНО ==========")
+    logger.info("========== PIPELINE Finalized ==========")
 
 
 if __name__ == "__main__":

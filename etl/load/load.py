@@ -53,28 +53,16 @@ def load_table_pandas(df: pd.DataFrame, table_name: str, engine) -> None:
     logger.info(f"{table_name} завантажено ✅")
 
 
-# ── ПОВІЛЬНО  ──────────────────────────────────────────────────
-# def load_table_polars(parquet_path, table_name, engine):
-#     """Працює але повільно — ~3-4 години для 10 млн рядків"""
-#     df = pl.read_parquet(parquet_path)
-#     total = len(df)
-#     chunk_size = 50_000
-#     for i in range(0, total, chunk_size):
-#         chunk = df.slice(i, chunk_size).to_pandas()
-#         chunk.to_sql(name=table_name, con=engine,
-#                      if_exists="append", index=False, chunksize=50_000)
-#         logger.info(f"  {table_name}: {min(i+chunk_size, total):,} / {total:,}")
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 def load_events_fast(parquet_path: Path) -> None:
-    """Швидке завантаження через mysql-connector + executemany + вимкнені індекси"""
-    logger.info("Завантажуємо events через mysql-connector (швидкий метод)...")
+    """Speed load mysql-connector + executemany + switch of index"""
+    logger.info("Upload events  mysql-connector...")
 
     conn = get_connector()
     cursor = conn.cursor()
 
-    # вимикаємо FK і індекси для швидкості
+   
     cursor.execute("SET FOREIGN_KEY_CHECKS = 0;")
     cursor.execute("SET UNIQUE_CHECKS = 0;")
     cursor.execute("SET autocommit = 0;")

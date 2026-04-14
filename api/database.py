@@ -18,9 +18,7 @@ def get_connection():
 
 def get_campaign_performance(campaign_id: int) -> dict:
     """
-    Рахуємо CTR, clicks, impressions і ad_spend для кампанії.
-    CTR = clicks / impressions — показує скільки людей клікнули
-    на рекламу відносно тих хто її побачив.
+    Count CTR, clicks, impressions і ad_spend 
     """
     sql = """
         SELECT
@@ -44,8 +42,7 @@ def get_campaign_performance(campaign_id: int) -> dict:
 
 def get_advertiser_spending(advertiser_id: int) -> dict:
     """
-    Загальні витрати рекламодавця across всіх кампаній.
-    Джойнимо events → campaigns → advertisers.
+    overall expences
     """
     sql = """
         SELECT
@@ -67,8 +64,7 @@ def get_advertiser_spending(advertiser_id: int) -> dict:
 
 def get_user_engagements(user_id: int) -> list:
     """
-    Останні 20 рекламних подій для юзера —
-    які оголошення бачив, чи клікав, коли.
+   last 20
     """
     sql = """
         SELECT
